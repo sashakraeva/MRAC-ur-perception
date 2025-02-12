@@ -23,7 +23,7 @@ general:
     zed_id:                     0
     serial_number:              0
     gpu_id:                     -1
-    base_frame:                 'base_link'                     # must be equal to the frame_id used in the URDF file
+    base_frame:                 'camera_base'                     # must be equal to the frame_id used in the URDF file
     sdk_verbose:                1                               # Set verbose level of the ZED SDK
     svo_compression:            2                               # `0`: LOSSLESS, `1`: AVCHD, `2`: HEVC
     self_calib:                 true                            # enable/disable self calibration at starting
@@ -45,17 +45,17 @@ depth:
     openni_depth_mode:          false                           # 'false': 32bit float meter units, 'true': 16bit uchar millimeter units
 
 pos_tracking:
-    pos_tracking_enabled:       true                            # True to enable positional tracking from start
+    pos_tracking_enabled:       false                            # True to enable positional tracking from start
     pos_tracking_mode:          'GEN_2'                          # Matches the ZED SDK setting: 'GEN_1', 'GEN_2'
-    set_gravity_as_origin:      true                            # If 'true' align the positional tracking world to imu gravity measurement. Keep the yaw from the user initial pose.
-    imu_fusion:                 true                            # enable/disable IMU fusion. When set to false, only the optical odometry will be used.
-    publish_tf:                 true                            # publish `odom -> base_link` TF
-    publish_map_tf:             true                            # publish `map -> odom` TF
+    set_gravity_as_origin:      false                            # If 'true' align the positional tracking world to imu gravity measurement. Keep the yaw from the user initial pose.
+    imu_fusion:                 false                            # enable/disable IMU fusion. When set to false, only the optical odometry will be used.
+    publish_tf:                 false                            # publish `odom -> base_link` TF
+    publish_map_tf:             false                            # publish `map -> odom` TF
     map_frame:                  'map'                           # main frame
     odometry_frame:             'odom'                          # odometry frame
     area_memory_db_path:        ''                              # file loaded when the node starts to restore the "known visual features" map. 
     save_area_memory_db_on_exit: false                          # save the "known visual features" map when the node is correctly closed to the path indicated by `area_memory_db_path`
-    area_memory:                true                            # Enable to detect loop closure
+    area_memory:                false                            # Enable to detect loop closure
     floor_alignment:            false                           # Enable to automatically calculate camera/floor offset
     initial_base_pose:          [0.0,0.0,0.0, 0.0,0.0,0.0]      # Initial position of the `base_frame` -> [X, Y, Z, R, P, Y]
     init_odom_with_first_valid_pose: true                       # Enable to initialize the odometry with the first valid pose

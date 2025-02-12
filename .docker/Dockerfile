@@ -71,6 +71,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
     ros-$ROS_DISTRO-rqt-gui-py \
     ros-$ROS_DISTRO-rqt-py-common \
     ros-$ROS_DISTRO-moveit \
+    ros-$ROS_DISTRO-moveit-visual-tools \
+    ros-$ROS_DISTRO-handeye \
+    ros-$ROS_DISTRO-baldor \
+    ros-$ROS_DISTRO-criutils \
     ros-$ROS_DISTRO-trac-ik \
     ros-$ROS_DISTRO-kdl-parser \
     ros-$ROS_DISTRO-urdf-parser-plugin \
