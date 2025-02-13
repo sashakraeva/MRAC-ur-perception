@@ -166,6 +166,8 @@ FROM open3d AS build
 
 COPY . /dev_ws/src/
 
+RUN pip uninstall numpy -y && pip install numpy==1.21.6
+
 WORKDIR /dev_ws
 RUN ["/bin/bash", "-c", "source /opt/ros/$ROS_DISTRO/setup.bash &&\
     catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release &&\
