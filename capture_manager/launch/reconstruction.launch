@@ -1,5 +1,5 @@
 <launch>
-    <node pkg="tf" type="static_transform_publisher" name="camera_link_broadcaster" args="0 0 0 0 0 0 1 rgb_camera_tcp rgb_camera_link 100" />
+    <!-- <node pkg="tf" type="static_transform_publisher" name="camera_link_broadcaster" args="0 0 0 0 0 0 1 rgb_camera_tcp rgb_camera_link 100" /> -->
     <!-- kinect azure -->
     <!-- <include file="$(find azure_kinect_ros_driver)/launch/driver.launch">
         <arg name="overwrite_robot_description" value="false" />
@@ -13,8 +13,8 @@
     </include> -->
 
         <!-- zedmini -->
-    <include file="$(find zed_wrapper)/launch/zedm.launch">
-    </include>
+    <!-- <include file="$(find zed_wrapper)/launch/zedm.launch">
+    </include> -->
 
 
 
