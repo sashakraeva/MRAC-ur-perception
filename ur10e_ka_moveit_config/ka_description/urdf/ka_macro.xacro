@@ -11,26 +11,9 @@
             <origin rpy="0 ${-pi/2} ${pi}" xyz="0 0 0" />
         </joint>
         <link name="${prefix}end_effector">
-            <visual>
-                <geometry>
-                    <!-- The path to the visual meshes in the package. -->
-                    <mesh
-                        filename="package://ur10e_ka_moveit_config/ka_description/meshes/ka_vi.stl" />
-                </geometry>
-                <material name="black">
-                    <color rgba="${50/255} ${50/255} ${50/255} 1.0" />
-                </material>
-            </visual>
-            <collision>
-                <geometry>
-                    <!-- The path to the collision meshes in the package. -->
-                    <mesh
-                        filename="package://ur10e_ka_moveit_config/ka_description/meshes/ka_co.stl" />
-                </geometry>
-            </collision>
         </link>
         <!-- TCP frames -->
-        <joint name="${prefix}depth_camera_joint" type="fixed">
+        <!-- <joint name="${prefix}depth_camera_joint" type="fixed">
             <origin xyz="0.111986021427 6.69550452272e-8 2.22519248532e-02" rpy="-1.675516081915675 1.6790457912918555e-12 -1.570796326781967" />
             <parent link="${prefix}end_effector" />
             <child link="${prefix}depth_camera_tcp" />
@@ -42,6 +25,6 @@
             <parent link="${prefix}end_effector" />
             <child link="${prefix}rgb_camera_tcp" />
         </joint>
-        <link name="${prefix}rgb_camera_tcp" />
+        <link name="${prefix}rgb_camera_tcp" /> -->
     </xacro:macro>
 </robot>

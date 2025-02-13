@@ -10,7 +10,10 @@
     <node name="commander" pkg="commander" type="commander_node.py" output="screen">
         <param name="sim" value="$(arg sim)"/>
     </node>
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
+      args="0.00109895 0.0867033 -0.0423406   -0.664343 -0.0276657 0.00729324 0.74688 tool0 rgb_camera_tcp" /> -->
+
     <node pkg="tf2_ros" type="static_transform_publisher" name="zed2base_link" 
-          args="0 0 0 0 0 0 rgb_camera_tcp camera_base" />
-    
+          args="0 0 0 0 -1.57 1.57 rgb_camera_tcp camera_base" />
+    s
 </launch>

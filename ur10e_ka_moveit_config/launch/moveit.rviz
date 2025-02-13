@@ -4,14 +4,12 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /MotionPlanning1
+        - /Global Options1
         - /MotionPlanning1/Scene Robot1
         - /MotionPlanning1/Planned Path1
-        - /TF1
         - /TF1/Frames1
-        - /PoseArray2
       Splitter Ratio: 0.6647058725357056
-    Tree Height: 912
+    Tree Height: 902
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -47,6 +45,7 @@ Visualization Manager:
     - Acceleration_Scaling_Factor: 0.1
       Class: moveit_rviz_plugin/MotionPlanning
       Enabled: true
+      JointsTab_Use_Radians: true
       Move Group Namespace: ""
       MoveIt_Allow_Approximate_IK: false
       MoveIt_Allow_External_Program: false
@@ -88,15 +87,10 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          depth_camera_tcp:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           end_effector:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           flange:
             Alpha: 1
             Show Axes: false
@@ -106,10 +100,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          rgb_camera_tcp:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           shoulder_link:
             Alpha: 1
             Show Axes: false
@@ -198,15 +188,10 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          depth_camera_tcp:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           end_effector:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           flange:
             Alpha: 1
             Show Axes: false
@@ -216,10 +201,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          rgb_camera_tcp:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           shoulder_link:
             Alpha: 1
             Show Axes: false
@@ -292,15 +273,23 @@ Visualization Manager:
           Value: false
         base_link_inertia:
           Value: false
-        depth_camera_tcp:
-          Value: true
         end_effector:
           Value: false
         flange:
           Value: false
         forearm_link:
           Value: false
-        rgb_camera_tcp:
+        ka_camera_base:
+          Value: true
+        ka_camera_body:
+          Value: true
+        ka_camera_visor:
+          Value: true
+        ka_depth_camera_link:
+          Value: true
+        ka_imu_link:
+          Value: true
+        ka_rgb_camera_link:
           Value: true
         shoulder_link:
           Value: false
@@ -336,12 +325,19 @@ Visualization Manager:
                       wrist_3_link:
                         flange:
                           end_effector:
-                            depth_camera_tcp:
-                              {}
-                            rgb_camera_tcp:
-                              {}
+                            {}
                           tool0:
                             {}
+        ka_camera_base:
+          ka_camera_body:
+            {}
+          ka_camera_visor:
+            {}
+          ka_depth_camera_link:
+            ka_imu_link:
+              {}
+            ka_rgb_camera_link:
+              {}
       Update Interval: 0
       Value: true
     - Class: rviz/MarkerArray
@@ -403,23 +399,23 @@ Visualization Manager:
       Near Clip Distance: 0.009999999776482582
       Pitch: 0.225000262260437
       Target Frame: base_link
-      Yaw: 0.8917884826660156
+      Yaw: 0.8867884874343872
     Saved: ~
 Window Geometry:
   Displays:
-    collapsed: true
-  Height: 1141
+    collapsed: false
+  Height: 1131
   Help:
     collapsed: false
-  Hide Left Dock: true
+  Hide Left Dock: false
   Hide Right Dock: false
   MotionPlanning:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000200000000000001560000041ffc0200000006fb000000100044006900730070006c006100790073000000003b0000041f000000c700fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670000000224000001f10000016900ffffff00000003000003ba0000003ffc0100000001fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720100000000000003ba0000010000ffffff000003ba000003da00000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000200000000000002b700000415fc0200000007fb000000100044006900730070006c006100790073010000003b00000415000000c700fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670000000224000001f10000016900fffffffb0000002600480061006e0064004500790065002000430061006c006900620072006100740069006f006e000000026f000001e1000000000000000000000003000004c30000003ffc0100000001fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c006900640065007201000002bd000004c30000010000ffffff000004c3000003d000000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
-  Width: 954
-  X: 4
-  Y: 55
+  Width: 1920
+  X: 0
+  Y: 32

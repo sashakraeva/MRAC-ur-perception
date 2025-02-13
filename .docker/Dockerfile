@@ -47,7 +47,7 @@ RUN pip3 install --no-cache-dir --upgrade pip\
     mypy \
     prospector \
     pylint \
-    numpy<1.24 \
+    numpy==1.23.1 \
     ipykernel \
     opencv-python \
     pyquaternion \
