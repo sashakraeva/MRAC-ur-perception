@@ -1,6 +1,6 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 84
+    Help Height: 138
     Name: Displays
     Property Tree Widget:
       Expanded:
@@ -8,8 +8,10 @@ Panels:
         - /MotionPlanning1/Planned Path1
         - /TF1/Frames1
         - /PoseArray2
+        - /PointCloud21
+        - /Marker1
       Splitter Ratio: 0.6647058725357056
-    Tree Height: 415
+    Tree Height: 1498
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -275,7 +277,7 @@ Visualization Manager:
       Marker Topic: /trajectory_trace
       Name: MarkerArray
       Namespaces:
-        {}
+        "": true
       Queue Size: 100
       Value: true
     - Class: rviz/TF
@@ -370,7 +372,7 @@ Visualization Manager:
       Marker Topic: /trajectory_trace
       Name: MarkerArray
       Namespaces:
-        {}
+        "": true
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -402,7 +404,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Min Color: 0; 0; 0
@@ -411,47 +413,21 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.009999999776482582
+      Size (m): 0.0010000000474974513
       Style: Flat Squares
       Topic: /zedm/zed_node/point_cloud/cloud_registered
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
-    - ArUco dictionary: DICT_5X5_250
-      Camera FOV Marker:
-        Marker Alpha: 0.30000001192092896
-        Marker Size: 1.5
-        Value: true
-      Class: moveit_rviz_plugin/HandEyeCalibration
+      Value: false
+    - Class: rviz/Marker
       Enabled: true
-      Move Group Namespace: ""
-      Name: HandEyeCalibration
-      Planning Scene Topic: move_group/monitored_planning_scene
-      Rx: 0
-      Ry: 0
-      Rz: 0
-      Tx: 0
-      Ty: 0
-      Tz: 0
+      Marker Topic: /industrial_reconstruction_mesh
+      Name: Marker
+      Namespaces:
+        {}
+      Queue Size: 100
       Value: true
-      base: ""
-      camera_info_topic: ""
-      eef: ""
-      group: manipulator
-      image_topic: ""
-      marker border (bits): 1
-      marker separation (px): 20
-      marker size (px): 200
-      markers, X: 3
-      markers, Y: 4
-      measured marker size (m): 0.059
-      measured separation (m): 0.006
-      object: ""
-      sensor: ""
-      sensor_mount_type: 0
-      solver: crigroup/Daniilidis1999
-      target_type: HandEyeTarget/Aruco
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -468,7 +444,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.8433237075805664
+      Distance: 4.486956596374512
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -476,24 +452,22 @@ Visualization Manager:
         Value: false
       Field of View: 0.75
       Focal Point:
-        X: 0.41950663924217224
-        Y: 0.2225407361984253
-        Z: 0.027958162128925323
+        X: 0.5508593916893005
+        Y: 0.2728270888328552
+        Z: 0.4125005900859833
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5000006556510925
+      Pitch: 0.31000110507011414
       Target Frame: base_link
-      Yaw: 5.258128643035889
+      Yaw: 5.508127689361572
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  HandEye Calibration:
-    collapsed: false
-  Height: 1131
+  Height: 1882
   Help:
     collapsed: false
   Hide Left Dock: false
@@ -502,9 +476,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000200000000000002b700000415fc0200000007fb000000100044006900730070006c006100790073010000003b0000022e000000c700fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670000000224000001f10000016900fffffffb0000002600480061006e0064004500790065002000430061006c006900620072006100740069006f006e010000026f000001e1000001e100ffffff00000003000004c30000003ffc0100000001fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c006900640065007201000002bd000004c30000010000ffffff000004c3000003d000000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000200000000000002b7000006c8fc0200000007fb000000100044006900730070006c0061007900730100000069000006c80000017800fffffffb0000000800480065006c00700000000342000000bb000000cf00fffffffb0000000a00560069006500770073000000010c000000a40000012300fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670000000224000001f10000028e00fffffffb0000002600480061006e0064004500790065002000430061006c006900620072006100740069006f006e00000003c70000036a000000000000000000000003000004bd00000070fc0100000001fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c006900640065007201000002c3000004bd000001d700ffffff000004bd0000064c00000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 1920
-  X: 0
-  Y: 32
+  X: 1920
+  Y: 54
