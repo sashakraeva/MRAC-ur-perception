@@ -1,3 +1,0 @@
-sensor_msgs/Image depth_image  # Input depth image
----
-float32 average_depth  # Output average depth value
