@@ -1,0 +1,4 @@
+Header header
+sensor_msgs/Image depth_image
+float32 min_range
+float32 max_range

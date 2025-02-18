@@ -47,7 +47,7 @@ RUN pip3 install --no-cache-dir --upgrade pip\
     mypy \
     prospector \
     pylint \
-    numpy==1.23.1 \
+    numpy==1.23.5 \
     ipykernel \
     opencv-python \
     pyquaternion \
@@ -55,6 +55,9 @@ RUN pip3 install --no-cache-dir --upgrade pip\
     matplotlib \
     pytransform3d \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
 
 RUN apt-get update && apt-get install -y --no-install-recommends\
     pkg-config \
@@ -118,6 +121,10 @@ WORKDIR /
 RUN mkdir -p dev_ws/src
 WORKDIR /dev_ws/src
 
+RUN git clone https://github.com/ultralytics/yolov5 \
+    && cd yolov5 \
+    && pip3 install -r requirements.txt
+
 # niceness permissions (for ur driver use without Prempt-RT)
 RUN echo "* - nice -15" >> /etc/security/limits.conf
 
@@ -166,7 +173,7 @@ FROM open3d AS build
 
 COPY . /dev_ws/src/
 
-RUN pip uninstall numpy -y && pip install numpy==1.21.6
+# RUN pip install --force-reinstall --no-deps numpy==1.21.6
 
 WORKDIR /dev_ws
 RUN ["/bin/bash", "-c", "source /opt/ros/$ROS_DISTRO/setup.bash &&\
