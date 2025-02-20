@@ -178,7 +178,7 @@ COPY . /dev_ws/src/
 
 WORKDIR /dev_ws
 
-RUN chown -R sashanosense /usr/local/lib/python3.8/dist-packages/
+# RUN chown -R sashanosense /usr/local/lib/python3.8/dist-packages/
 
 RUN ["/bin/bash", "-c", "source /opt/ros/$ROS_DISTRO/setup.bash &&\
     catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release &&\
