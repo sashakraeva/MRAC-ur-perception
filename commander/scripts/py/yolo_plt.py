@@ -51,7 +51,7 @@ try:
 
             # Draw bounding boxes
             for _, row in detections.iterrows():
-                if row["confidence"] < 0.6:  # Ignore low-confidence detections
+                if row["confidence"] < 0.3:  # Ignore low-confidence detections
                     continue
                 
                 x1, y1, x2, y2 = int(row["xmin"]), int(row["ymin"]), int(row["xmax"]), int(row["ymax"])

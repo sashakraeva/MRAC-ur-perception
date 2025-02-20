@@ -53,6 +53,7 @@ RUN pip3 install --no-cache-dir --upgrade pip\
     pyquaternion \
     python-dateutil \
     matplotlib \
+    cython \
     pytransform3d \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -176,6 +177,9 @@ COPY . /dev_ws/src/
 # RUN pip install --force-reinstall --no-deps numpy==1.21.6
 
 WORKDIR /dev_ws
+
+RUN chown -R sashanosense /usr/local/lib/python3.8/dist-packages/
+
 RUN ["/bin/bash", "-c", "source /opt/ros/$ROS_DISTRO/setup.bash &&\
     catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release &&\
     catkin build \
