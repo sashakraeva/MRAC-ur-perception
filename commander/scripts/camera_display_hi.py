@@ -22,26 +22,26 @@ class CupDetector:
         self.pc_sub = rospy.Subscriber("/points2", PointCloud2, self.pc_callback)
         self.cup_numner = 1
 
-        self.yolo_path = "/dev_ws/src/yolov5"
-        sys.path.append(self.yolo_path)
+        # self.yolo_path = "/dev_ws/src/yolov5"
+        # sys.path.append(self.yolo_path)
 
         self.rgb = None
         self.depth = None
-        self.pc2 = None
+        # self.pc2 = None
 
-        self.rate = rospy.Rate(10)  # 10Hz update rate
+        self.rate = rospy.Rate(60)  # 10Hz update rate
 
-        # Load YOLOv5 model
-        try:
-            self.model = torch.hub.load(
-                self.yolo_path, "custom", 
-                path=os.path.join(self.yolo_path, "yolov5s.pt"), 
-                source="local", device="cpu"
-            )
-            rospy.loginfo("YOLO model loaded successfully.")
-        except Exception as e:
-            rospy.logerr(f"Failed to load YOLO model: {e}")
-            sys.exit(1)
+        # # Load YOLOv5 model
+        # try:
+        #     self.model = torch.hub.load(
+        #         self.yolo_path, "custom", 
+        #         path=os.path.join(self.yolo_path, "yolov5s.pt"), 
+        #         source="local", device="cpu"
+        #     )
+        #     rospy.loginfo("YOLO model loaded successfully.")
+        # except Exception as e:
+        #     rospy.logerr(f"Failed to load YOLO model: {e}")
+        #     sys.exit(1)
 
     def detect_cup(self):
         while not rospy.is_shutdown(): 
@@ -76,25 +76,26 @@ class CupDetector:
             rospy.logerr(f"Error in depth callback: {e}")
 
     def pc_callback(self, msg):
-        try:
-            points = []
-            for point in pc2.read_points(msg, field_names=("x", "y", "z", "rgb"), skip_nans=True):
-                x, y, z, rgb_float = point
+        pass
+        # try:
+        #     points = []
+        #     for point in pc2.read_points(msg, field_names=("x", "y", "z", "rgb"), skip_nans=True):
+        #         x, y, z, rgb_float = point
 
-                # Convert float32 RGB to an integer
-                rgb_int = struct.unpack('I', struct.pack('f', rgb_float))[0]
+        #         # Convert float32 RGB to an integer
+        #         rgb_int = struct.unpack('I', struct.pack('f', rgb_float))[0]
 
-                # Extract R, G, B values
-                r = (rgb_int >> 16) & 0xFF
-                g = (rgb_int >> 8) & 0xFF
-                b = rgb_int & 0xFF
+        #         # Extract R, G, B values
+        #         r = (rgb_int >> 16) & 0xFF
+        #         g = (rgb_int >> 8) & 0xFF
+        #         b = rgb_int & 0xFF
 
-                points.append([x, y, z, r, g, b])
+        #         points.append([x, y, z, r, g, b])
 
-            self.pc2 = np.array(points, dtype=np.float32)
+        #     self.pc2 = np.array(points, dtype=np.float32)
         
-        except Exception as e:
-            rospy.logerr(f"Error in point cloud callback: {e}")
+        # except Exception as e:
+        #     rospy.logerr(f"Error in point cloud callback: {e}")
 
 
 def main():
