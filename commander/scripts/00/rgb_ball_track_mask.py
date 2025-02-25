@@ -15,6 +15,7 @@ class RGBTracker:
         self.rgb_sub = rospy.Subscriber("/rgb/image_raw", Image, self.image_callback)
         self.mask_pub = rospy.Publisher("/trigger_pointcloud", Bool, queue_size=1)
         self.mask_rgb_pub = rospy.Publisher("/mask_rgb", Image, queue_size=1)
+        self.mask_ball_pub = rospy.Publisher("/mask_ball_track", Image, queue_size=1)
 
 
         self.tracked_objects = {}  # {ID: (centroid, bbox)}
@@ -44,8 +45,8 @@ class RGBTracker:
         mask_red = cv2.inRange(hsv, lower_red, upper_red)
 
         # Define Yellow Color Range (Ball)
-        lower_yellow = np.array([15, 0, 159])  
-        upper_yellow = np.array([42, 255, 255])  
+        lower_yellow = np.array([15, 0, 241])  
+        upper_yellow = np.array([97, 255, 255])  
         mask_yellow = cv2.inRange(hsv, lower_yellow, upper_yellow)
 
         # Process masks separately before combining
@@ -107,10 +108,30 @@ class RGBTracker:
                 cv2.circle(masked_image, centroid, 10, (255, 0, 0), -1)  # Blue circle (Cups)
             elif obj_id == "Ball":  # Yellow ball
                 cv2.circle(masked_image, centroid, 5, (0, 255, 0), -1)  # Green dot (Ball)
+        
+        # find the contour of the cup which contains the ball, draw a contour around it
+        if self.ball_parent_cup:
+            cup_contour = detected_contours.get(self.tracked_objects[self.ball_parent_cup][0])
+            if cup_contour is not None:
+                cv2.drawContours(masked_image, [cup_contour], -1, (0, 255, 0), 2)
 
-        # Show results
-        cv2.imshow("Masked Objects with Markers", masked_image)  # Now only detected objects are visible
-        cv2.waitKey(1)
+                mask_cup = np.zeros_like(rgb_image, dtype=np.uint8)
+                # convert the contour to a mask
+                cv2.drawContours(mask_cup, [cup_contour], -1, (255, 255, 255), thickness=cv2.FILLED)
+                masked_image_cup = cv2.bitwise_and(rgb_image, mask_cup)
+                try:
+                    mask_msg = self.bridge.cv2_to_imgmsg(masked_image_cup, "bgr8")
+                    self.mask_ball_pub.publish(mask_msg)
+                except Exception as e:
+                    rospy.logerr(f"Error publishing masked image")
+
+
+ 
+
+
+        # # Show results
+        # cv2.imshow("Masked Objects with Markers", masked_image)  # Now only detected objects are visible
+        # cv2.waitKey(1)
 
         try:
             mask_msg = self.bridge.cv2_to_imgmsg(masked_image, "bgr8")

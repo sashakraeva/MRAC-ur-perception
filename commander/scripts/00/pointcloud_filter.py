@@ -4,7 +4,7 @@ import rospy
 import cv2
 import numpy as np
 import sensor_msgs.point_cloud2 as pc2
-from sensor_msgs.msg import Image, PointCloud2
+from sensor_msgs.msg import Image, PointCloud2, CameraInfo
 from cv_bridge import CvBridge
 import struct
 
@@ -13,41 +13,55 @@ class PointCloudFilter:
         rospy.init_node("pointcloud_filter", anonymous=True)
 
         self.bridge = CvBridge()
-        self.rgb_mask_sub = rospy.Subscriber("/mask_rgb", Image, self.mask_callback)  # ✅ Fixed: Removed duplicate subscription
+
+        # ✅ Subscribe to mask from the Ball Tracker
+        self.mask_sub = rospy.Subscriber("/mask_ball_track", Image, self.mask_callback)
+
+        # ✅ Subscribe to PointCloud2 data
         self.pc_sub = rospy.Subscriber("/points2", PointCloud2, self.pc_callback)
 
-        self.cup_pc_pub = rospy.Publisher("/filtered_cup_points", PointCloud2, queue_size=1)  # ✅ Fixed publisher
+        # ✅ Subscribe to CameraInfo topic
+        self.camera_info_sub = rospy.Subscriber("/rgb/camera_info", CameraInfo, self.camera_info_callback)
+
+        # ✅ Publisher for the filtered PointCloud2
+        self.filtered_pc_pub = rospy.Publisher("/masked_pointcloud", PointCloud2, queue_size=1)
 
         self.mask = None
-
-        # ✅ **Adjust these intrinsics based on your depth camera**
-        self.camera_intrinsics = {
-            "fx": 535.4,  # Adjusted Focal length x
-            "fy": 539.2,  # Adjusted Focal length y
-            "cx": 635.5,  # Adjusted Principal point x
-            "cy": 359.5   # Adjusted Principal point y
-        }
+        self.mask_resolution = (1280, 720)  # ✅ Ensure correct resolution
+        self.camera_intrinsics = None  # Will be updated dynamically
 
         rospy.loginfo("PointCloud Filter Node Initialized.")
 
-    def mask_callback(self, msg):
-        """ Receives the mask from rgb_tracker.py """
+    def camera_info_callback(self, msg):
+        """ Extracts camera intrinsics from CameraInfo topic """
         try:
-            mask_bgr = self.bridge.imgmsg_to_cv2(msg, "bgr8")  # Convert to BGR
-            self.mask = cv2.cvtColor(mask_bgr, cv2.COLOR_BGR2GRAY)  # Convert to grayscale for masking
-            
-            self.mask = cv2.bilateralFilter(self.mask, 9, 75, 75)  # Smooths noise but preserves edges
-
-            
-            self.mask = cv2.resize(self.mask, (1280, 720))  # ✅ Ensure correct resolution
-            rospy.loginfo("Received RGB Mask from Tracker and Converted to Grayscale.")
+            self.camera_intrinsics = {
+                "fx": msg.K[0],  # Focal length x
+                "fy": msg.K[4],  # Focal length y
+                "cx": msg.K[2],  # Principal point x
+                "cy": msg.K[5]   # Principal point y
+            }
         except Exception as e:
-            rospy.logerr(f"Error processing RGB Mask: {e}")
+            rospy.logerr(f"❌ Error extracting camera intrinsics: {e}")
+
+    def mask_callback(self, msg):
+        """ Receives and processes the mask from mask_ball_track """
+        try:
+
+            # Convert ROS Image to OpenCV format
+            mask_bgr = self.bridge.imgmsg_to_cv2(msg, "bgr8")
+            self.mask = cv2.cvtColor(mask_bgr, cv2.COLOR_BGR2GRAY)
+
+
+        except Exception as e:
+            rospy.logerr(f"❌ Error converting mask: {e}")
 
     def pc_callback(self, msg):
-        """ Processes PointCloud2 and filters it based on the received mask """
+        """ Filters PointCloud2 based on received mask """
         if self.mask is None:
-            rospy.logwarn("Mask not received yet. Skipping point cloud processing.")
+            return
+
+        if self.camera_intrinsics is None:
             return
 
         points = []
@@ -56,35 +70,52 @@ class PointCloudFilter:
         for point in pc2.read_points(msg, field_names=("x", "y", "z", "rgb"), skip_nans=True):
             x, y, z, rgb_float = point
 
+            if z <= 0.1:  # ✅ Ignore invalid depth values
+                continue
+
             # ✅ Convert float32 RGB to an integer
             rgb_int = struct.unpack('I', struct.pack('f', rgb_float))[0]
             r = (rgb_int >> 16) & 0xFF
             g = (rgb_int >> 8) & 0xFF
             b = rgb_int & 0xFF
 
-            # ✅ **Project 3D point (x, y, z) onto 2D image plane**
-            # ✅ **Project 3D point (x, y, z) onto 2D image plane**
-            if z > 0:  # Avoid division by zero
-                u = int((x * self.camera_intrinsics["fx"] / z) + self.camera_intrinsics["cx"])
-                v = int((y * self.camera_intrinsics["fy"] / z) + self.camera_intrinsics["cy"])
+            # ✅ Project 3D point (x, y, z) onto 2D mask plane using dynamic intrinsics
+            u = int((x * self.camera_intrinsics["fx"] / z) + self.camera_intrinsics["cx"])
+            v = int((-y * self.camera_intrinsics["fy"] / z) + self.camera_intrinsics["cy"])
 
-                # ✅ Ensure the projected point is within bounds
-                if 0 <= u < mask_width and 0 <= v < mask_height:
-                    if self.mask[v, u] > 0:  # ✅ Keep only points inside the detected objects
-                        points.append([x, y, z, rgb_float])
-
+            # ✅ Ensure projected point is within mask bounds
+            if 0 <= u < mask_width and 0 <= v < mask_height:
+                if self.mask[v, u] > 0:  # ✅ Keep only points inside the detected mask
+                    points.append([x, y, z, rgb_float])
 
         if not points:
-            rospy.logwarn("No filtered points found, skipping publish.")
+            rospy.logwarn("No masked points found, skipping publish.")
             return
 
-        # ✅ **Create new PointCloud2 message**
-        header = msg.header  # ✅ Use the original message header for correct timestamps
-        filtered_pc = pc2.create_cloud(header, msg.fields, points)  # ✅ Use correct header
+        # ✅ **Create and publish masked PointCloud2**
+        header = msg.header  # ✅ Use the original timestamp
+        masked_pc = pc2.create_cloud(header, msg.fields, points)
 
-        # ✅ **Publish the filtered point cloud**
-        self.cup_pc_pub.publish(filtered_pc)  # ✅ Fixed: Correct publisher used
-        rospy.loginfo("Filtered PointCloud Published.")
+        self.filtered_pc_pub.publish(masked_pc)
+
+        # get the bounding box of the point cloud
+        min_x = min(points, key=lambda x: x[0])[0]
+        max_x = max(points, key=lambda x: x[0])[0]
+        min_y = min(points, key=lambda x: x[1])[1]
+        max_y = max(points, key=lambda x: x[1])[1]
+        min_z = min(points, key=lambda x: x[2])[2]
+        max_z = max(points, key=lambda x: x[2])[2]
+
+        # create a pose message for the center of the bounding box
+        x = (min_x + max_x) / 2
+        y = (min_y + max_y) / 2
+        z = (min_z + max_z) / 2
+
+        print(f"Bounding Box Center: ({x}, {y}, {z})")
+
+
+
+
 
     def run(self):
         rospy.spin()

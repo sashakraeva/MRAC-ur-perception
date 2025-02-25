@@ -11,5 +11,5 @@
         <param name="sim" value="$(arg sim)"/>
     </node>
     <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_broadcaster"
-      args="1.11183 -0.225229 0.138311   -0.537323 -0.246895 0.301739 0.74785 base_link ka_rgb_camera_link" />
+      args="0.807214 -0.378774 0.538114   0.926516 -0.00616569 0.000482851 -0.376206 base_link ka_rgb_camera_link" />
 </launch>

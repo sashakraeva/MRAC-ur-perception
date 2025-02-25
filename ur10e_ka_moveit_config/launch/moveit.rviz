@@ -5,11 +5,12 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /MotionPlanning1/Scene Robot1
-        - /MotionPlanning1/Planned Path1
         - /TF1/Frames1
+        - /PointCloud21
+        - /MotionPlanning1/Planning Request1
+        - /PointCloud22
       Splitter Ratio: 0.6647058725357056
-    Tree Height: 439
+    Tree Height: 1498
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -41,6 +42,164 @@ Visualization Manager:
       Plane: XY
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 1
+      Arrow Length: 0.30000001192092896
+      Axes Length: 0.10000000149011612
+      Axes Radius: 0.009999999776482582
+      Class: rviz/PoseArray
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.07000000029802322
+      Head Radius: 0.029999999329447746
+      Name: PoseArray
+      Queue Size: 10
+      Shaft Length: 0.23000000417232513
+      Shaft Radius: 0.009999999776482582
+      Shape: Axes
+      Topic: /pose_visualizer
+      Unreliable: false
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /trajectory_trace
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Filter (blacklist): ""
+      Filter (whitelist): ""
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        base:
+          Value: false
+        base_link:
+          Value: false
+        base_link_inertia:
+          Value: false
+        end_effector:
+          Value: false
+        flange:
+          Value: false
+        forearm_link:
+          Value: false
+        ka_camera_base:
+          Value: true
+        ka_camera_body:
+          Value: true
+        ka_camera_visor:
+          Value: true
+        ka_depth_camera_link:
+          Value: true
+        ka_imu_link:
+          Value: true
+        ka_rgb_camera_link:
+          Value: true
+        shoulder_link:
+          Value: false
+        tool0:
+          Value: true
+        tool0_controller:
+          Value: false
+        upper_arm_link:
+          Value: false
+        wrist_1_link:
+          Value: false
+        wrist_2_link:
+          Value: false
+        wrist_3_link:
+          Value: false
+      Marker Alpha: 1
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: false
+      Show Axes: true
+      Show Names: false
+      Tree:
+        base_link:
+          base:
+            tool0_controller:
+              {}
+          base_link_inertia:
+            shoulder_link:
+              upper_arm_link:
+                forearm_link:
+                  wrist_1_link:
+                    wrist_2_link:
+                      wrist_3_link:
+                        flange:
+                          end_effector:
+                            {}
+                          tool0:
+                            {}
+          ka_rgb_camera_link:
+            {}
+        ka_camera_base:
+          ka_camera_body:
+            {}
+          ka_camera_visor:
+            {}
+          ka_depth_camera_link:
+            ka_imu_link:
+              {}
+      Update Interval: 0
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /trajectory_trace
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Alpha: 1
+      Arrow Length: 0.30000001192092896
+      Axes Length: 0.10000000149011612
+      Axes Radius: 0.009999999776482582
+      Class: rviz/PoseArray
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.07000000029802322
+      Head Radius: 0.029999999329447746
+      Name: PoseArray
+      Queue Size: 10
+      Shaft Length: 0.23000000417232513
+      Shaft Radius: 0.009999999776482582
+      Shape: Axes
+      Topic: /pose_visualizer
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.0010000000474974513
+      Style: Flat Squares
+      Topic: /points2
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
       Value: true
     - Acceleration_Scaling_Factor: 0.1
       Class: moveit_rviz_plugin/MotionPlanning
@@ -135,7 +294,7 @@ Visualization Manager:
         Show Robot Collision: false
         Show Robot Visual: true
         Show Trail: false
-        State Display Time: 0.05 s
+        State Display Time: 3x
         Trail Step Size: 1
         Trajectory Topic: move_group/display_planned_path
         Use Sim Time: false
@@ -161,7 +320,7 @@ Visualization Manager:
       Planning Scene Topic: move_group/monitored_planning_scene
       Robot Description: robot_description
       Scene Geometry:
-        Scene Alpha: 1
+        Scene Alpha: 0.8999999761581421
         Scene Color: 50; 230; 50
         Scene Display Time: 0.009999999776482582
         Show Scene Geometry: true
@@ -236,173 +395,6 @@ Visualization Manager:
       Value: true
       Velocity_Scaling_Factor: 0.1
     - Alpha: 1
-      Arrow Length: 0.30000001192092896
-      Axes Length: 0.10000000149011612
-      Axes Radius: 0.009999999776482582
-      Class: rviz/PoseArray
-      Color: 255; 25; 0
-      Enabled: true
-      Head Length: 0.07000000029802322
-      Head Radius: 0.029999999329447746
-      Name: PoseArray
-      Queue Size: 10
-      Shaft Length: 0.23000000417232513
-      Shaft Radius: 0.009999999776482582
-      Shape: Axes
-      Topic: /pose_visualizer
-      Unreliable: false
-      Value: true
-    - Class: rviz/MarkerArray
-      Enabled: true
-      Marker Topic: /trajectory_trace
-      Name: MarkerArray
-      Namespaces:
-        {}
-      Queue Size: 100
-      Value: true
-    - Class: rviz/TF
-      Enabled: true
-      Filter (blacklist): ""
-      Filter (whitelist): ""
-      Frame Timeout: 15
-      Frames:
-        All Enabled: false
-        base:
-          Value: false
-        base_link:
-          Value: false
-        base_link_inertia:
-          Value: false
-        end_effector:
-          Value: false
-        flange:
-          Value: false
-        forearm_link:
-          Value: false
-        handeye_target:
-          Value: true
-        ka_camera_base:
-          Value: true
-        ka_camera_body:
-          Value: true
-        ka_camera_visor:
-          Value: true
-        ka_depth_camera_link:
-          Value: true
-        ka_imu_link:
-          Value: true
-        ka_rgb_camera_link:
-          Value: true
-        shoulder_link:
-          Value: false
-        tool0:
-          Value: false
-        tool0_controller:
-          Value: false
-        upper_arm_link:
-          Value: false
-        wrist_1_link:
-          Value: false
-        wrist_2_link:
-          Value: false
-        wrist_3_link:
-          Value: false
-      Marker Alpha: 1
-      Marker Scale: 1
-      Name: TF
-      Show Arrows: false
-      Show Axes: true
-      Show Names: false
-      Tree:
-        base_link:
-          base:
-            tool0_controller:
-              {}
-          base_link_inertia:
-            shoulder_link:
-              upper_arm_link:
-                forearm_link:
-                  wrist_1_link:
-                    wrist_2_link:
-                      wrist_3_link:
-                        flange:
-                          end_effector:
-                            {}
-                          tool0:
-                            {}
-          ka_rgb_camera_link:
-            handeye_target:
-              {}
-        ka_camera_base:
-          ka_camera_body:
-            {}
-          ka_camera_visor:
-            {}
-          ka_depth_camera_link:
-            ka_imu_link:
-              {}
-      Update Interval: 0
-      Value: true
-    - Class: rviz/MarkerArray
-      Enabled: true
-      Marker Topic: /trajectory_trace
-      Name: MarkerArray
-      Namespaces:
-        {}
-      Queue Size: 100
-      Value: true
-    - Alpha: 1
-      Arrow Length: 0.30000001192092896
-      Axes Length: 0.10000000149011612
-      Axes Radius: 0.009999999776482582
-      Class: rviz/PoseArray
-      Color: 255; 25; 0
-      Enabled: true
-      Head Length: 0.07000000029802322
-      Head Radius: 0.029999999329447746
-      Name: PoseArray
-      Queue Size: 10
-      Shaft Length: 0.23000000417232513
-      Shaft Radius: 0.009999999776482582
-      Shape: Axes
-      Topic: /pose_visualizer
-      Unreliable: false
-      Value: true
-    - ArUco dictionary: DICT_5X5_250
-      Camera FOV Marker:
-        Marker Alpha: 0.30000001192092896
-        Marker Size: 1.5
-        Value: true
-      Class: moveit_rviz_plugin/HandEyeCalibration
-      Enabled: true
-      Move Group Namespace: ""
-      Name: HandEyeCalibration
-      Planning Scene Topic: move_group/monitored_planning_scene
-      Rx: 2.7901
-      Ry: 0
-      Rz: 0
-      Tx: 0.6289
-      Ty: 0
-      Tz: 0.717
-      Value: true
-      base: base_link
-      camera_info_topic: /rgb/camera_info
-      eef: tool0
-      group: manipulator
-      image_topic: /rgb/image_raw
-      marker border (bits): 1
-      marker separation (px): 20
-      marker size (px): 200
-      markers, X: 2
-      markers, Y: 3
-      measured marker size (m): 0.088
-      measured separation (m): 0.008
-      object: handeye_target
-      sensor: ka_rgb_camera_link
-      sensor_mount_type: 0
-      solver: crigroup/Daniilidis1999
-      target_type: HandEyeTarget/Aruco
-    - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
         Max Value: 10
@@ -425,14 +417,26 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.009999999776482582
       Style: Flat Squares
-      Topic: /points2
+      Topic: /masked_pointcloud
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /handeye_calibration/target_detection
+      Image Topic: /mask_rgb
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
+      Value: true
+    - Class: rviz/Image
+      Enabled: true
+      Image Topic: /mask_ball_track
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -458,7 +462,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.4144227504730225
+      Distance: 2.7276926040649414
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -466,27 +470,25 @@ Visualization Manager:
         Value: false
       Field of View: 0.75
       Focal Point:
-        X: -0.0832611694931984
-        Y: 0.3024405837059021
-        Z: 0.35958778858184814
+        X: 0.17906783521175385
+        Y: 0.5934271812438965
+        Z: 0.1244877427816391
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.18000049889087677
+      Pitch: 0.35979753732681274
       Target Frame: base_link
-      Yaw: 0.8567886352539062
+      Yaw: 5.879975318908691
     Saved: ~
 Window Geometry:
   Displays:
-    collapsed: false
-  HandEye Calibration:
-    collapsed: false
+    collapsed: true
   Height: 1882
   Help:
     collapsed: false
-  Hide Left Dock: false
+  Hide Left Dock: true
   Hide Right Dock: false
   Image:
     collapsed: false
@@ -494,7 +496,7 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000002000000000000054c000006c8fc020000000afb000000100044006900730070006c0061007900730100000069000002a50000017800fffffffb0000000800480065006c00700000000342000000bb000000cf00fffffffb0000000a00560069006500770073000000010c000000a40000012300fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670000000224000001f10000028e00fffffffb0000002600480061006e0064004500790065002000430061006c006900620072006100740069006f006e000000026f000001e10000000000000000fb0000002600480061006e0064004500790065002000430061006c006900620072006100740069006f006e01000002fd000004340000000000000000fb0000002600480061006e0064004500790065002000430061006c006900620072006100740069006f006e010000031a00000417000001ed00fffffffb0000000a0049006d0061006700650300000634000003cf000006870000027500000003000009a800000070fc0100000001fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720100000558000009a8000001d700ffffff000009a80000064c00000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000003000000000000054c000006c8fc020000000efb000000100044006900730070006c0061007900730000000069000006c80000017800fffffffb0000000800480065006c00700000000342000000bb000000cf00fffffffb0000000a00560069006500770073000000010c000000a40000012300fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006700000004920000029f0000028e00fffffffb0000002600480061006e0064004500790065002000430061006c006900620072006100740069006f006e000000026f000001e10000000000000000fb0000002600480061006e0064004500790065002000430061006c006900620072006100740069006f006e01000002fd000004340000000000000000fb0000002600480061006e0064004500790065002000430061006c006900620072006100740069006f006e010000031a000004170000000000000000fb0000000a0049006d0061006700650200000634000003cf0000068700000275fb0000002600480061006e0064004500790065002000430061006c006900620072006100740069006f006e01000003e30000034e0000000000000000fb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006700000004920000029f0000000000000000fb0000000a0049006d0061006700650300000879000004690000054c000000ea00000002000009a800000111fc0100000001fb0000000a0049006d0061006700650300000bb20000017f000002eb000001a100000003000009a800000070fc0100000001fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000558000009a8000001d7000001d700000f00000006c800000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 3840
