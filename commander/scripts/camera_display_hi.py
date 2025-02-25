@@ -49,6 +49,11 @@ class CupDetector:
                 rospy.loginfo("Receiving images...")
                 
                 rgb_image = self.rgb.copy()
+                # Reduce the brightness
+                hsv = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2HSV)
+                hsv[..., 2] = hsv[..., 2] * 0.5
+                rgb_image = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+
                 
 
                 # Run YOLO detection (if needed in future)

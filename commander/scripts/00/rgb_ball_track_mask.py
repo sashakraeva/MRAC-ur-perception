@@ -44,8 +44,8 @@ class RGBTracker:
         mask_red = cv2.inRange(hsv, lower_red, upper_red)
 
         # Define Yellow Color Range (Ball)
-        lower_yellow = np.array([2, 5, 214])  
-        upper_yellow = np.array([49, 255, 255])  
+        lower_yellow = np.array([15, 0, 159])  
+        upper_yellow = np.array([42, 255, 255])  
         mask_yellow = cv2.inRange(hsv, lower_yellow, upper_yellow)
 
         # Process masks separately before combining
@@ -74,7 +74,7 @@ class RGBTracker:
 
         # Process Yellow Ball
         for contour in contours_yellow:
-            if cv2.contourArea(contour) < 100:  # Lower threshold for small ball
+            if cv2.contourArea(contour) < 50:  # Lower threshold for small ball
                 continue
             x, y, w, h = cv2.boundingRect(contour)
             M = cv2.moments(contour)

@@ -7,7 +7,7 @@ def nothing(x):
 # Open webcam (0 is default camera, change if needed)
 cap = cv2.VideoCapture(2)  # Use 1, 2, etc., if you have multiple cameras
 
-# Create a window for HSV adjustments
+# Create a window for HSV adjustments1  
 cv2.namedWindow("HSV Adjustments")
 cv2.createTrackbar("Lower H", "HSV Adjustments", 0, 179, nothing)
 cv2.createTrackbar("Lower S", "HSV Adjustments", 0, 255, nothing)
