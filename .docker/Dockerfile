@@ -1,14 +1,12 @@
-ARG UBUNTU_VERSION=20.04
-ARG NVIDIA_CUDA_VERSION=11.8.0
-
-FROM nvidia/cuda:${NVIDIA_CUDA_VERSION}-devel-ubuntu${UBUNTU_VERSION} AS base
-
 ARG ROS_DISTRO=noetic
+
+FROM ros:$ROS_DISTRO-ros-base AS base
+
 
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TERM=xterm-256color
+ENV TERM=xterm-256colorZ
 
 FROM base AS ros
 
@@ -24,14 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
     python3-pip \
     python3-flake8 \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-    
-RUN apt-get update && apt-get install -y \
-    && sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
-    && curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends \
-    ros-${ROS_DISTRO}-ros-base \
-    && rm -rf /var/lib/apt/lists/*
+
 
 RUN pip3 install --no-cache-dir --upgrade pip\
     argcomplete \
@@ -47,7 +38,7 @@ RUN pip3 install --no-cache-dir --upgrade pip\
     mypy \
     prospector \
     pylint \
-    numpy==1.23.5 \
+    numpy \
     ipykernel \
     opencv-python \
     pyquaternion \
@@ -56,9 +47,6 @@ RUN pip3 install --no-cache-dir --upgrade pip\
     cython \
     pytransform3d \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-
 
 RUN apt-get update && apt-get install -y --no-install-recommends\
     pkg-config \
@@ -122,30 +110,10 @@ WORKDIR /
 RUN mkdir -p dev_ws/src
 WORKDIR /dev_ws/src
 
-RUN git clone https://github.com/ultralytics/yolov5 \
-    && cd yolov5 \
-    && pip3 install -r requirements.txt
-
 # niceness permissions (for ur driver use without Prempt-RT)
 RUN echo "* - nice -15" >> /etc/security/limits.conf
 
-FROM ros AS zed
-
-WORKDIR /
-
-RUN apt-get update && apt-get install -y --no-install-recommends\
-    zstd \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-RUN wget -q -O ZED_SDK_Ubuntu20_cuda11.8_v4.2.5.zstd https://download.stereolabs.com/zedsdk/4.2/cu11/ubuntu20?_gl=1*g5lkdk*_gcl_au*NjQ0NTEwODkxLjE3Mzg4NTUzODY
-
-RUN chmod +x ZED_SDK_Ubuntu20_cuda11.8_v4.2.5.zstd && \
-    ./ZED_SDK_Ubuntu20_cuda11.8_v4.2.5.zstd -- silent runtime-only skip_tools skip_cuda
-
-RUN rm ZED_SDK_Ubuntu20_cuda11.8_v4.2.5.zstd
-WORKDIR /dev_ws/src
-
-FROM zed AS ka
+FROM ros AS ka
 
 RUN curl -sSL https://packages.microsoft.com/ubuntu/18.04/prod/pool/main/libk/libk4a1.4/libk4a1.4_1.4.1_amd64.deb > /tmp/libk4a1.4_1.4.1_amd64.deb
 RUN curl -sSL https://packages.microsoft.com/ubuntu/18.04/prod/pool/main/libk/libk4a1.4-dev/libk4a1.4-dev_1.4.1_amd64.deb > /tmp/libk4a1.4-dev_1.4.1_amd64.deb
@@ -174,7 +142,7 @@ FROM open3d AS build
 
 COPY . /dev_ws/src/
 
-# RUN pip install --force-reinstall --no-deps numpy==1.21.6
+RUN pip install --force-reinstall --no-deps numpy==1.21.6
 
 WORKDIR /dev_ws
 
